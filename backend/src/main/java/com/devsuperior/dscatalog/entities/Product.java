@@ -10,10 +10,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.Objects;
 
-@Getter
-@Setter
-@ToString
+@Data
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class Product {
 
     @Id
@@ -24,19 +24,5 @@ public class Product {
     private String imgUrl;
     private Double price;
 
-    public Product() {
-    }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Product product = (Product) o;
-        return id != null && Objects.equals(id, product.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
 }
