@@ -18,19 +18,25 @@ import java.util.stream.Collectors;
 public class CategoryService {
     @Autowired
     private CategoryRepository repositoy;
-
-
     @Transactional(readOnly = true)
     public List<CategoryDTO> findAll() {
         List<Category> list = repositoy.findAll();
-
             return list.stream().map(CategoryDTO::new).toList();
 
     }
     @Transactional(readOnly = true)
     public CategoryDTO findById(Long id ){
         Optional<Category> obj =repositoy.findById(id);
-        Category entity = obj.orElseThrow(() -> new EntityNotFoundException("Entity not found"));
+        var entity = obj.orElseThrow(() -> new EntityNotFoundException("Entity not found"));
         return new CategoryDTO(entity);
+    }
+
+    @Transactional(readOnly = true)
+    public CategoryDTO insert(CategoryDTO dto) {
+        var entity = new Category();
+        entity.setName(dto.getName());
+        entity = repositoy.save(entity);
+        return new CategoryDTO(entity);
+
     }
 }
