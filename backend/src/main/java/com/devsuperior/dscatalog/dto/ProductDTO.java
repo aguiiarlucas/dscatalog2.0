@@ -1,20 +1,20 @@
-package com.devsuperior.dscatalog.entities;
+package com.devsuperior.dscatalog.dto;
 
 
-import lombok.*;
-import org.hibernate.Hibernate;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.util.Objects;
 
 @Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Product {
+public class ProductDTO {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

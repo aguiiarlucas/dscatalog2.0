@@ -1,8 +1,8 @@
-package com.devsuperior.dscatalog.entities;
+package com.devsuperior.dscatalog.dto;
 
 
+import com.devsuperior.dscatalog.entities.Role;
 import lombok.Data;
-import org.hibernate.annotations.GeneratorType;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,7 +11,7 @@ import javax.persistence.Id;
 
 @Data
 @Entity
-public class User extends Role {
+public class UserDTO extends Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +21,7 @@ public class User extends Role {
     private String email;
     private String password;
 
-    public  User(){
+    public UserDTO(){
     }
 
 

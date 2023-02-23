@@ -1,5 +1,6 @@
-package com.devsuperior.dscatalog.entities;
+package com.devsuperior.dscatalog.dto;
 
+import com.devsuperior.dscatalog.entities.Category;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,15 +10,17 @@ import java.io.Serializable;
 
 
 @Data
-@Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "tb_category")
-public class Category implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class CategoryDTO implements Serializable {
     private Long id;
     private String name;
+
+    public CategoryDTO(Category entity){
+        this.id = entity.getId();
+        this.name=entity.getName();
+    }
+
 
 }
