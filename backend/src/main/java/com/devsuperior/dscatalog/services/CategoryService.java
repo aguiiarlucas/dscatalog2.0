@@ -44,7 +44,7 @@ public class CategoryService {
 
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public CategoryDTO update(Long id, CategoryDTO dto) {
         try {
             Category entity = repository.getOne(id);
@@ -56,6 +56,7 @@ public class CategoryService {
         }
 
     }
+
     public void delete(Long id) {
         try {
             repository.deleteById(id);
