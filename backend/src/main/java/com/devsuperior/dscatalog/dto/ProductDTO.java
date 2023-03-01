@@ -5,43 +5,45 @@ import com.devsuperior.dscatalog.entities.Category;
 import com.devsuperior.dscatalog.entities.Product;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.Instant;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+
 @Data
-@Entity
+@EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductDTO implements Serializable {
-    @Serial
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
     private String name;
     private String description;
-    private String imgUrl;
     private Double price;
+    private String imgUrl;
     private Instant date;
-    private List<CategoryDTO>list = new ArrayList<>();
-    public ProductDTO(Product entity) {
-        id =entity.getId();
-        name = entity.getName();
-        description = entity.getDescription();
-        imgUrl = entity.getImgUrl();
-        price = entity.getPrice();
-        date = entity.getDate();
-    }
 
-    public ProductDTO(Product entity, Set<Category>categories){
+    private List<CategoryDTO>categories = new ArrayList<>();
+
+    public  ProductDTO(Product entity){
+        this.id = entity.getId();
+        this.name = entity.getName();
+        this.description = entity.getDescription();
+        this.price = entity.getPrice();
+        this.imgUrl = entity.getImgUrl();
+        this.date = entity.getDate();
+    }
+    public  ProductDTO(Product entity , Set<Category>categories){
         this(entity);
-        categories.forEach(CategoryDTO::new);
+        categories.forEach(cat ->this.categories.add(new CategoryDTO(cat)));
     }
 }
