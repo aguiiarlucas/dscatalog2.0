@@ -12,7 +12,7 @@ import java.time.Instant;
 
 @Data
 @Entity
-@AllArgsConstructor
+
 @NoArgsConstructor
 @Table(name = "tb_category")
 public class Category implements Serializable {
@@ -27,6 +27,9 @@ public class Category implements Serializable {
     private Instant createdAt;
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant updateAt;
+
+    public Category(long l, String eletronics) {
+    }
 
     @PrePersist
     public void prePresist(){
