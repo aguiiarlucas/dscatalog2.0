@@ -3,6 +3,7 @@ package com.devsuperior.dscatalog.tests;
 import com.devsuperior.dscatalog.dto.ProductDTO;
 import com.devsuperior.dscatalog.entities.Category;
 import com.devsuperior.dscatalog.entities.Product;
+import com.devsuperior.dscatalog.services.ProductService;
 
 import java.time.Instant;
 
@@ -24,4 +25,5 @@ public class Factory {
         return  new Category(1L,"Eletronics");
 
     }
+
 }
