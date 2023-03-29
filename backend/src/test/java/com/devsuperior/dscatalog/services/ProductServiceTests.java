@@ -111,6 +111,7 @@ public class ProductServiceTests {
 
         Assertions.assertNotNull(result);
         verify(repository).findAll(pageable);
+
     }
     @Test
     public void findByIdShouldReturnProductDTOWhenIdExisting(){
@@ -131,6 +132,7 @@ public class ProductServiceTests {
     public void updateReturnProductDTOWhenIdExisting(){
 
        ProductDTO result =  service.update(idExisting,dto);
+
         Assertions.assertNotNull(result);
     }
     @Test

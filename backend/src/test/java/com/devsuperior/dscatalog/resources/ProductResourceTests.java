@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageImpl;
@@ -29,6 +30,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(ProductResource.class)
+@AutoConfigureMockMvc
+
 public class ProductResourceTests {
 
     @Autowired
@@ -95,12 +98,11 @@ public class ProductResourceTests {
     @Test
     public void updateShouldReturnProductDTOWhenIdExists() throws Exception {
         String jsonBody = objectMapper.writeValueAsString(dto);
-        ResultActions result = mockMvc.perform(put("/products/{id}", idExisting)
+        ResultActions result = mockMvc.perform(put("/products/{id}",idExisting)
                 .content(jsonBody).contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON));
+                .accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
         Assertions.assertNotNull(result);
     }
-
 
     @Test
     public void deleteShouldReturnNoContentWhenIdExisting() throws Exception {

@@ -21,6 +21,7 @@ import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
 
 @Service
+
 public class ProductService {
     @Autowired
     private ProductRepository repository;
