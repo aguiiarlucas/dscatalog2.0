@@ -1,18 +1,17 @@
 package com.devsuperior.dscatalog.entities;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Data
 @Entity
-
 @Table(name = "tb_category")
 public class Category implements Serializable {
     @Serial
@@ -27,6 +26,10 @@ public class Category implements Serializable {
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant updateAt;
 
+
+    @ManyToMany(mappedBy = "categories")
+    private Set<Product> products = new HashSet<>();
+
     public Category() {
     }
 
@@ -36,12 +39,13 @@ public class Category implements Serializable {
     }
 
     @PrePersist
-    public void prePresist(){
-        createdAt=Instant.now();
+    public void prePresist() {
+        createdAt = Instant.now();
     }
+
     @PreUpdate
-    public void preUpdate(){
-        updateAt=Instant.now();
+    public void preUpdate() {
+        updateAt = Instant.now();
     }
 
 }
