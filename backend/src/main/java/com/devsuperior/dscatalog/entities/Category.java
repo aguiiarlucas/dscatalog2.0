@@ -1,6 +1,7 @@
 package com.devsuperior.dscatalog.entities;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serial;
@@ -13,6 +14,7 @@ import java.util.Set;
 @Data
 @Entity
 @Table(name = "tb_category")
+@NoArgsConstructor
 public class Category implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
@@ -30,14 +32,6 @@ public class Category implements Serializable {
     @ManyToMany(mappedBy = "categories")
     private Set<Product> products = new HashSet<>();
 
-    public Category() {
-    }
-
-    public Category(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
     @PrePersist
     public void prePresist() {
         createdAt = Instant.now();
@@ -48,4 +42,8 @@ public class Category implements Serializable {
         updateAt = Instant.now();
     }
 
+//    public Category(Long id, String name) {
+//        this.id = id;
+//        this.name = name;
+//    }
 }

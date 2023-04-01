@@ -1,7 +1,9 @@
 package com.devsuperior.dscatalog.entities;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serial;
@@ -12,6 +14,7 @@ import java.util.Set;
 
 @Data
 @Entity
+@AllArgsConstructor
 @Table(name = "tb_product")
 
 public class Product implements Serializable {
@@ -27,7 +30,7 @@ public class Product implements Serializable {
     private Double price;
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant date;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "tb_product_category",
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
