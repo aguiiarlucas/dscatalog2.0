@@ -31,7 +31,7 @@ public class UserService {
     private RoleRepository roleRepository;
 
     @Autowired
-    private BCryptPasswordEncoder encoder;
+    private BCryptPasswordEncoder passwordEncoder;
 
 
     @Transactional(readOnly = true)
@@ -48,7 +48,7 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public UserDTO insert(BCryptPasswordEncoder passwordEncoder, UserInsertDTO dto) {
+    public UserDTO insert(UserInsertDTO dto) {
         var entity = new User();
         copyDtoToEntity(dto,entity);
         entity.setPassword(passwordEncoder.encode(dto.getPassword()));

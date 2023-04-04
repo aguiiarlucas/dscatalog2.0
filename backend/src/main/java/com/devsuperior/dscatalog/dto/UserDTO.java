@@ -11,7 +11,6 @@ import java.util.Set;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 public class UserDTO {
     private Long id;
     private String firstName;
@@ -20,18 +19,16 @@ public class UserDTO {
 
     Set<RoleDTO> roles = new HashSet<>();
 
-    public UserDTO(Long id, String firstName, String lastName, String email) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
+    public  UserDTO(){
+        super();
     }
 
+
     public UserDTO(User entity) {
-        entity.getId();
-        entity.getFirstName();
-        entity.getLastName();
-        entity.getEmail();
+        this.id= entity.getId();
+        this.firstName= entity.getFirstName();
+        this.lastName=entity.getLastName();
+        this.email=entity.getEmail();
         entity.getRoles().forEach(role->this.roles.add(new RoleDTO(role)));
     }
 
