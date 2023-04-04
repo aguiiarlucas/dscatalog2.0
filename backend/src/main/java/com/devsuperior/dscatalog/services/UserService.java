@@ -1,10 +1,7 @@
 package com.devsuperior.dscatalog.services;
 
 
-import com.devsuperior.dscatalog.dto.CategoryDTO;
-import com.devsuperior.dscatalog.dto.ProductDTO;
-import com.devsuperior.dscatalog.dto.RoleDTO;
-import com.devsuperior.dscatalog.dto.UserDTO;
+import com.devsuperior.dscatalog.dto.*;
 import com.devsuperior.dscatalog.entities.Category;
 import com.devsuperior.dscatalog.entities.Role;
 import com.devsuperior.dscatalog.entities.User;
@@ -18,6 +15,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,10 +27,11 @@ import java.util.Optional;
 public class UserService {
     @Autowired
     private UserRepository repository;
-
     @Autowired
     private RoleRepository roleRepository;
 
+    @Autowired
+    private BCryptPasswordEncoder encoder;
 
 
     @Transactional(readOnly = true)
@@ -49,9 +48,10 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public UserDTO insert(UserDTO dto) {
+    public UserDTO insert(BCryptPasswordEncoder passwordEncoder, UserInsertDTO dto) {
         var entity = new User();
         copyDtoToEntity(dto,entity);
+        entity.setPassword(passwordEncoder.encode(dto.getPassword()));
         entity = repository.save(entity);
         return new UserDTO(entity);
 
@@ -88,6 +88,7 @@ public class UserService {
         entity.setLastName(dto.getLastName());
         entity.setEmail(dto.getEmail());
         entity.getRoles().clear();
+
 
         for (RoleDTO roleDTO :dto.getRoles()) {
             Role role = roleRepository.getOne(roleDTO.getId());
