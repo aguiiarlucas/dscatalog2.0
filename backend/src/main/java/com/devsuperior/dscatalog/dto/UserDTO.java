@@ -13,7 +13,6 @@ import java.util.Set;
 
 @Data
 @AllArgsConstructor
-
 public class UserDTO {
     private Long id;
     @NotBlank(message = "Campo obrigatório")
