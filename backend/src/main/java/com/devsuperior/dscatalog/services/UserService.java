@@ -36,51 +36,44 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public Page<UserDTO> findAllPaged(Pageable pageable) {
-        Page<User> list = repository.findAll(pageable);
-        return list.map(UserDTO::new);
+        Page<User> page = repository.findAll(pageable);
+        return page.map(UserDTO::new);
     }
 
     @Transactional(readOnly = true)
     public UserDTO findById(Long id) {
-        Optional<User> obj = repository.findById(id);
-        var entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
-        return new UserDTO(entity);
+        User user = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
+        return new UserDTO(user);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public UserDTO insert(UserInsertDTO dto) {
-        var entity = new User();
-        copyDtoToEntity(dto,entity);
-        entity.setPassword(passwordEncoder.encode(dto.getPassword()));
-        entity = repository.save(entity);
-        return new UserDTO(entity);
-
+        User user = new User();
+        copyDtoToEntity(dto, user);
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        user = repository.save(user);
+        return new UserDTO(user);
     }
 
     @Transactional
     public UserDTO update(Long id, UserUpdateDTO dto) {
-        try {
-            User entity = repository.getOne(id);
-            copyDtoToEntity(dto,entity);
-            entity = repository.save(entity);
-            return new UserDTO(entity);
-        } catch (EntityNotFoundException e) {
-            throw new ResourceNotFoundException("Id not found" + id);
-        }
-
+        User user = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
+        copyDtoToEntity(dto, user);
+        user = repository.save(user);
+        return new UserDTO(user);
     }
 
-
+    @Transactional
     public void delete(Long id) {
         try {
             repository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
-            throw new ResourceNotFoundException("Id not found " + id);
+            throw new ResourceNotFoundException("Entity not found with id " + id);
         } catch (DataIntegrityViolationException e) {
-            throw new DatabaseException("Integrity violation");
+            throw new DatabaseException("Integrity violation: " + e.getMessage());
         }
-
-
     }
 
     private void copyDtoToEntity(UserDTO dto, User entity) {
@@ -89,9 +82,9 @@ public class UserService {
         entity.setEmail(dto.getEmail());
         entity.getRoles().clear();
 
-
-        for (RoleDTO roleDTO :dto.getRoles()) {
-            Role role = roleRepository.getOne(roleDTO.getId());
+        for (RoleDTO roleDTO : dto.getRoles()) {
+            Role role = roleRepository.findById(roleDTO.getId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Role not found"));
             entity.getRoles().add(role);
         }
     }
