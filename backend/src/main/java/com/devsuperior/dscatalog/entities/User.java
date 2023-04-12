@@ -39,7 +39,8 @@ public class User implements UserDetails, Serializable {
     private Set<Role>roles = new HashSet<>();
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-      return roles.stream().map(role->new SimpleGrantedAuthority(role.getAuthority()))
+      return roles.stream()
+              .map(role->new SimpleGrantedAuthority(role.getAuthority()))
               .collect(Collectors.toList());
     }
 
